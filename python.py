@@ -1,40 +1,48 @@
 import random
 
-def generate_word():
-    # Generate a random word for the player to unscramble
-    words = ["apple", "banana", "orange", "grape", "kiwi"]
-    selected_word = random.choice(words)
-    scrambled_word = scramble(selected_word)
-    return selected_word, scrambled_word
+# Initializing player's score and number of rounds
+playerScore = 0
+numOfRounds = 5
 
-def scramble(word):
-    # Scramble the letters of the word
-    shuffled_letters = list(word)
-    random.shuffle(shuffled_letters)
-    scrambled_word = ''.join(shuffled_letters)
-    return scrambled_word
+# Function to generate a scrambled word
+def scramble():
+    words = ["kyoto", "hiroshima", "shibuya", "yokohama", "ishikawa", "hokkaido", "kitakyushu", "himeji", "aomori", "saitama"]
+    randomWord = random.choice(words)
+    letters = []
+    # Shuffling the letters of the chosen word
+    for i in randomWord:
+        letters.append(i)
+    random.shuffle(letters)
+    scrambledWord = ""
+    for i in letters:
+        scrambledWord += i
+    return [scrambledWord, randomWord]
 
-def get_player_input():
-    # Get player's guess
-    return input("Your guess: ").lower()
+# Looping through the number of rounds
+for i in range(1, numOfRounds + 1):
+    # Generating a scrambled word for each round
+    scrambledWordArray = scramble()
+    scrambledWord = scrambledWordArray[0]
+    unscrambledWord = scrambledWordArray[1]
+    print("Round number:", i)
+    print("Scrambled word:", scrambledWord)
+    # Asking the player to enter the unscrambled word
+    userWord = input("Enter the unscrambled word: ")
+    # Checking if the player's input matches the unscrambled word
+    if userWord == unscrambledWord:
+        playerScore += 1
 
-def main():
-    player_score = 0
-    number_of_rounds = 3
+# Printing the player's score after all rounds
+print("The result of the game:", playerScore)
 
-    for round_num in range(1, number_of_rounds + 1):
-        print("Round", round_num)
-        selected_word, scrambled_word = generate_word()
-        print("Scrambled Word:", scrambled_word)
-        player_guess = get_player_input()
-
-        if player_guess == selected_word:
-            print("Correct! You unscrambled the word.")
-            player_score += 1
-        else:
-            print("Incorrect. The correct word is:", selected_word)
-
-    print("Game Over. Your final score is:", player_score, "out of", number_of_rounds)
-
-# Run the game
-main()
+# Providing the result based on the player's score
+if playerScore == 0:
+    print("You didn't score any points. Better luck next time!")
+elif playerScore == 1:
+    print("You scored 1 point. Keep practicing!")
+elif playerScore == 2:
+    print("You scored 2 points. Well done, but you can do better!")
+elif playerScore == 3:
+    print("Congratulations! You scored 3 points. You're a word-scrambling expert!")
+else:
+    print("Invalid score.")
